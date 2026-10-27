@@ -1,18 +1,18 @@
-<div align="center">
+<p align="center">
+  <img src="docs/banner.svg" alt="Credential Forensics Lab: falling pink code over a glowing title" width="100%">
+</p>
 
-<img src="docs/banner.svg" alt="Credential Forensics Lab: falling pink code over a glowing title" width="100%">
+<p align="center">
+  <b>A hands-on lab that shows how a website should check, store and protect passwords.</b>
+</p>
 
-<br>
-
-![PHP](https://img.shields.io/badge/PHP-8.1%2B-ff4fa3?style=for-the-badge&labelColor=1a0a14&logo=php&logoColor=ff4fa3)
-![Selenium](https://img.shields.io/badge/Selenium-17%20tests%20passing-ff4fa3?style=for-the-badge&labelColor=1a0a14&logo=selenium&logoColor=ff4fa3)
-![Docker](https://img.shields.io/badge/Docker-ready-ff4fa3?style=for-the-badge&labelColor=1a0a14&logo=docker&logoColor=ff4fa3)
-![bcrypt](https://img.shields.io/badge/passwords-bcrypt-ff4fa3?style=for-the-badge&labelColor=1a0a14)
-![ITC402](https://img.shields.io/badge/ITC402-Major%20Assignment-ff4fa3?style=for-the-badge&labelColor=1a0a14)
-
-**A hands-on lab that shows how a website should check, store and protect passwords.**
-
-</div>
+<p align="center">
+  <img src="https://img.shields.io/badge/PHP-8.1%2B-ff4fa3?style=for-the-badge&labelColor=1a0a14&logo=php&logoColor=ff4fa3" alt="PHP 8.1+">
+  <img src="https://img.shields.io/badge/Selenium-17%20tests%20passing-ff4fa3?style=for-the-badge&labelColor=1a0a14&logo=selenium&logoColor=ff4fa3" alt="Selenium 17 tests passing">
+  <img src="https://img.shields.io/badge/Docker-ready-ff4fa3?style=for-the-badge&labelColor=1a0a14&logo=docker&logoColor=ff4fa3" alt="Docker ready">
+  <img src="https://img.shields.io/badge/passwords-bcrypt-ff4fa3?style=for-the-badge&labelColor=1a0a14" alt="bcrypt">
+  <img src="https://img.shields.io/badge/ITC402-Major%20Assignment-ff4fa3?style=for-the-badge&labelColor=1a0a14" alt="ITC402 Major Assignment">
+</p>
 
 ```text
 > status ........ TRAINING LAB
@@ -23,9 +23,9 @@
 
 ---
 
-## `[ THE MISSION ]`
+## 💗 `[ THE MISSION ]`
 
-Most people only see the login box. This lab opens up everything behind it. You create an account, try to break the rules, fail on purpose, get locked out, and then inspect exactly what the system stored about you.
+Most people only see the login box. This lab opens up everything behind it: you create an account, try to break the rules, fail on purpose, get locked out, and then inspect exactly what the system stored about you.
 
 | You do this | The lab shows you this |
 |---|---|
@@ -34,29 +34,32 @@ Most people only see the login box. This lab opens up everything behind it. You 
 | Fail to log in 3 times | A **30-second lockout** with a ticking countdown |
 | Log in successfully | A dashboard with **threat level, score and an evidence log** |
 | Open the Hash Inspector | The 60-character **bcrypt hash** split into algorithm, cost, salt and digest |
-| Hash `hello` twice in the Hash Lab | Two **different** bcrypt hashes, but **identical** SHA-256, and why that matters |
+| Hash `hello` twice in the Hash Lab | Two **different** bcrypt hashes, but **identical** SHA-256 |
 
 ---
 
-## `[ SCREENSHOTS ]`
+## 🌸 `[ SCREENSHOTS ]`
 
 <table>
-<tr>
-<td width="50%"><img src="docs/screenshot-signup.png" alt="Sign-up page with live strength meter reading Excellent 91 out of 100"></td>
-<td width="50%"><img src="docs/screenshot-login.png" alt="Log in page"></td>
-</tr>
-<tr>
-<td align="center"><sub><b>Sign Up</b>: live strength meter and rule checklist</sub></td>
-<td align="center"><sub><b>Log In</b>: lockout and delete-all-accounts reset</sub></td>
-</tr>
+  <tr>
+    <td width="50%"><img src="docs/screenshot-signup.png" alt="Sign-up page with live strength meter reading Excellent, 91 out of 100"></td>
+    <td width="50%"><img src="docs/screenshot-login.png" alt="Log in page"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub><b>Sign Up</b>: live strength meter and rule checklist</sub></td>
+    <td align="center"><sub><b>Log In</b>: lockout and delete-all-accounts reset</sub></td>
+  </tr>
 </table>
 
-<p align="center"><img src="docs/screenshot-dashboard.png" alt="Dashboard with account details, security assessment, evidence log, hash inspector and hash lab" width="70%"></p>
-<p align="center"><sub><b>Dashboard</b>: account details, security assessment, evidence log, hash inspector and hash lab</sub></p>
+<p align="center">
+  <img src="docs/screenshot-dashboard.png" alt="Dashboard with account details, security assessment, evidence log, hash inspector and hash lab" width="70%">
+  <br>
+  <sub><b>Dashboard</b>: account details, security assessment, evidence log, hash inspector and hash lab</sub>
+</p>
 
 ---
 
-## `[ FEATURES ]`
+## 🎀 `[ FEATURES ]`
 
 ### Pages
 
@@ -66,20 +69,20 @@ Most people only see the login box. This lab opens up everything behind it. You 
 | **Sign Up** | `register.php` | Account form with live meter and server-side validation |
 | **Dashboard** | `dashboard.php` | Account details, security score, evidence log, Hash Inspector, Hash Lab (login required) |
 
-### Password rules (enforced twice: in JavaScript for feedback, in PHP for real)
+### Password rules (checked twice: in JavaScript for feedback, in PHP for real)
 
 - 10 to 64 characters, with an uppercase letter, a lowercase letter, a digit and a symbol
 - Must not contain the username
-- Must not match the **breach blocklist**, including simple substitutions (`@`→`a`, `0`→`o`, `$`→`s`, ...)
+- Must not match the **breach blocklist**, including simple substitutions (`@`→`a`, `0`→`o`, `$`→`s`)
 - Confirmation must match
 
 ### Security behaviour
 
-- **Hashing, not encryption.** `password_hash()` (bcrypt, random salt) and `password_verify()`. Recovery answers are hashed too.
-- **Lockout.** 3 failed logins lock the account for 30 seconds. The right password is refused while locked.
-- **No user enumeration.** "Wrong password" and "unknown user" return the same message, and a dummy hash keeps response times similar.
-- **Session hardening.** `session_regenerate_id()` after login and logout, HttpOnly + SameSite cookies, basic security headers.
-- **Server is the authority.** Every rule the browser shows is checked again in PHP.
+- **Hashing, not encryption:** `password_hash()` (bcrypt, random salt) and `password_verify()`. Recovery answers are hashed too.
+- **Lockout:** 3 failed logins lock the account for 30 seconds. The right password is refused while locked.
+- **No user enumeration:** "wrong password" and "unknown user" give the same message, and a dummy hash keeps response times similar.
+- **Session hardening:** `session_regenerate_id()` after login and logout, HttpOnly + SameSite cookies, basic security headers.
+- **Server is the authority:** every rule the browser shows is checked again in PHP.
 
 ### How a login is decided
 
@@ -97,25 +100,33 @@ flowchart TD
 
 ---
 
-## `[ QUICK START ]`
+## 💖 `[ QUICK START ]`
 
-### Option A: PHP built-in server
+```bash
+git clone https://github.com/Shaniya18/credential-forensics-lab.git
+cd credential-forensics-lab
+```
 
-Requires PHP 8.1 or newer.
+<details>
+<summary><b>Option A: PHP built-in server</b> (needs PHP 8.1+)</summary>
 
 ```bash
 php -S localhost:8000
 ```
 
 Open <http://localhost:8000>.
+</details>
 
-### Option B: XAMPP (Windows)
+<details>
+<summary><b>Option B: XAMPP on Windows</b></summary>
 
-1. Put this folder in `C:\xampp\htdocs\` so that `C:\xampp\htdocs\credential-forensics-lab\login.php` exists (no extra nested folder).
+1. Put the folder in `C:\xampp\htdocs\` so that `C:\xampp\htdocs\credential-forensics-lab\login.php` exists (no extra nested folder).
 2. Start **Apache** in the XAMPP Control Panel.
 3. Open <http://localhost/credential-forensics-lab/>.
+</details>
 
-### Option C: Docker
+<details>
+<summary><b>Option C: Docker</b></summary>
 
 ```bash
 docker build -t credential-forensics-lab .
@@ -123,6 +134,7 @@ docker run -d --name forensics-app -p 8080:80 credential-forensics-lab
 ```
 
 Open <http://localhost:8080>. Stop it with `docker stop forensics-app && docker rm forensics-app`.
+</details>
 
 ### Try it in 60 seconds
 
@@ -133,16 +145,16 @@ Open <http://localhost:8080>. Stop it with `docker stop forensics-app && docker 
 
 ---
 
-## `[ AUTOMATED TESTS ]`
+## 🌸 `[ AUTOMATED TESTS ]`
 
-17 Selenium tests (Python `unittest` + WebDriver) drive a real Chrome browser through every page: success and failure paths.
+17 Selenium tests (Python `unittest` + WebDriver) drive a real Chrome browser through every page, covering success and failure paths.
 
 ```bash
 pip install -r requirements.txt
 python tests/test_forensics.py
 ```
 
-Point the tests at another address with `BASE_URL` (no trailing slash). `SLOW` adds a pause after each action so you can watch.
+Point the tests at another address with `BASE_URL` (no trailing slash). `SLOW` pauses after each action so you can watch.
 
 ```powershell
 $env:BASE_URL="http://localhost/credential-forensics-lab"   # XAMPP
@@ -151,7 +163,10 @@ $env:SLOW="0.7"
 python tests\test_forensics.py
 ```
 
-Results are printed and saved to `tests/test_results.txt`. Requirements: Python 3.9+ and Google Chrome.
+Results are saved to `tests/test_results.txt`. Requirements: Python 3.9+ and Google Chrome.
+
+<details>
+<summary><b>See all 17 test cases</b></summary>
 
 | # | Test | Path |
 |--:|---|:-:|
@@ -173,9 +188,11 @@ Results are printed and saved to `tests/test_results.txt`. Requirements: Python 
 | 16 | Logout protects the dashboard again | ✅ |
 | 17 | Delete-all-accounts with confirm dialog (cancel, then accept) | ✅ |
 
+</details>
+
 ---
 
-## `[ PROJECT MAP ]`
+## 🎀 `[ PROJECT MAP ]`
 
 ```text
 credential-forensics-lab/
@@ -191,10 +208,10 @@ credential-forensics-lab/
 ├── assets/
 │   ├── style.css           dark terminal theme
 │   └── script.js           strength meter, countdown, falling-code background
+├── docs/                   banner and screenshots for this README
 ├── tests/
 │   ├── test_forensics.py   Selenium suite (17 tests)
 │   └── test_results.txt    latest run
-├── docs/                   banner and screenshots for this README
 ├── Dockerfile              php:8.3-apache
 ├── git_workflow.sh         commit / branch / merge history (Git Bash, Mac, Linux)
 └── git_workflow.ps1        the same for Windows PowerShell
@@ -202,7 +219,7 @@ credential-forensics-lab/
 
 ---
 
-## `[ KNOWN LIMITS ]`
+## 💖 `[ KNOWN LIMITS ]`
 
 This is a teaching demo. Each limit below is also a reason real systems work differently:
 
@@ -213,6 +230,6 @@ This is a teaching demo. Each limit below is also a reason real systems work dif
 
 ---
 
-<div align="center">
-<sub>Built for the ITC402 Major Assignment · PHP · Selenium · Docker · Git</sub>
-</div>
+<p align="center">
+  <sub>Built for the ITC402 Major Assignment · PHP · Selenium · Docker · Git</sub>
+</p>
