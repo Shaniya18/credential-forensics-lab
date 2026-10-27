@@ -1,0 +1,44 @@
+Selenium test run: 2026-10-27 11:03:29
+Target: http://localhost/credential-forensics-lab
+
+test_01_login_page_loads (__main__.ForensicsLabTests.test_01_login_page_loads)
+The access terminal opens with its title, banner and login form fields. ... ok
+test_02_navigation_between_pages (__main__.ForensicsLabTests.test_02_navigation_between_pages)
+Navigation links and buttons move between the login and enroll pages; index redirects. ... ok
+test_03_dashboard_requires_authentication (__main__.ForensicsLabTests.test_03_dashboard_requires_authentication)
+Opening the dashboard without logging in is refused and redirected to the login page. ... ok
+test_04_successful_enrollment (__main__.ForensicsLabTests.test_04_successful_enrollment)
+A valid enrollment is accepted and the user is sent to the login page. ... ok
+test_05_empty_enrollment_form_rejected (__main__.ForensicsLabTests.test_05_empty_enrollment_form_rejected)
+Submitting an empty enrollment form lists every missing item. ... ok
+test_06_common_password_rejected_even_with_leet_speak (__main__.ForensicsLabTests.test_06_common_password_rejected_even_with_leet_speak)
+'password123' and 'P@ssw0rd!2024' are both on the breach blocklist. ... ok
+test_07_password_containing_username_rejected (__main__.ForensicsLabTests.test_07_password_containing_username_rejected)
+A password that contains the Subject ID is refused. ... ok
+test_08_password_confirmation_must_match (__main__.ForensicsLabTests.test_08_password_confirmation_must_match)
+Different confirmation is refused and the typed Subject ID is kept (passwords are not). ... ok
+test_09_duplicate_subject_id_rejected (__main__.ForensicsLabTests.test_09_duplicate_subject_id_rejected)
+A Subject ID can only be enrolled once (case-insensitive). ... ok
+test_10_live_strength_meter_updates_while_typing (__main__.ForensicsLabTests.test_10_live_strength_meter_updates_while_typing)
+The JavaScript meter moves from Weak to Excellent and ticks the rule checklist. ... ok
+test_11_successful_login_shows_case_file (__main__.ForensicsLabTests.test_11_successful_login_shows_case_file)
+After login the dashboard shows the account status, score, question and evidence log. ... ok
+test_12_wrong_password_and_unknown_user_give_same_message (__main__.ForensicsLabTests.test_12_wrong_password_and_unknown_user_give_same_message)
+The error text does not reveal whether the Subject ID exists (no user enumeration). ... ok
+test_13_lockout_after_three_failures_with_countdown (__main__.ForensicsLabTests.test_13_lockout_after_three_failures_with_countdown)
+Three bad logins lock the account; the countdown ticks down; the right password is also refused. ... ok
+test_14_hash_inspector_shows_bcrypt_not_password (__main__.ForensicsLabTests.test_14_hash_inspector_shows_bcrypt_not_password)
+The dashboard shows a 60-character bcrypt hash (never the password itself). ... ok
+test_15_hash_lab_salts_differ_but_sha256_is_identical (__main__.ForensicsLabTests.test_15_hash_lab_salts_differ_but_sha256_is_identical)
+Hashing the same text twice gives different bcrypt hashes; empty input is refused. ... ok
+test_16_logout_closes_case_file (__main__.ForensicsLabTests.test_16_logout_closes_case_file)
+Logging out returns to the terminal and the dashboard is protected again. ... ok
+test_17_purge_with_confirm_dialog (__main__.ForensicsLabTests.test_17_purge_with_confirm_dialog)
+Purge asks for confirmation (JS alert): cancel keeps accounts, accept removes them. ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 66.571s
+
+OK
+
+Summary: 17 run, 0 failed, 0 errors

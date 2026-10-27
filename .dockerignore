@@ -1,0 +1,5 @@
+.git
+.gitignore
+tests/__pycache__
+tests/test_results.txt
+*.log
