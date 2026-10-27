@@ -1,10 +1,3 @@
-Here is the **complete, single-block README**. 
-
-**ONE IMPORTANT THING:** Before you paste, I have put `YOUR_RENDER_URL_HERE` in three places. If you paste it as is, the link will be broken. **After you paste, just use `Ctrl+H` (Find and Replace) in VS Code to replace `YOUR_RENDER_URL_HERE` with your actual Render link.**
-
-Here is the exact text to copy:
-
-```markdown
 <p align="center">
   <img src="docs/banner.svg" alt="Credential Forensics Lab: falling green code over a glowing title" width="100%">
 </p>
@@ -14,7 +7,7 @@ Here is the exact text to copy:
 </p>
 
 <p align="center">
-  <a href="YOUR_RENDER_URL_HERE">
+  <a href="https://credential-forensics-lab.onrender.com">
     <img src="https://img.shields.io/badge/🚀_Live_Demo-Online-39ff88?style=flat-square&labelColor=04080b" alt="Live Demo">
   </a>
   <img src="https://img.shields.io/badge/PHP-8.1%2B-39ff88?style=flat-square&labelColor=04080b&logo=php&logoColor=39ff88" alt="PHP 8.1+">
@@ -114,7 +107,7 @@ cd credential-forensics-lab
 
 The application is live and deployed via Docker to Render.
 
-👉 **[Click here to open the live app](YOUR_RENDER_URL_HERE)** 👈
+👉 **[Click here to open the live app](https://credential-forensics-lab.onrender.com)** 👈
 
 *(Note: Because this is hosted on Render's free tier, the container spins down after 15 minutes of inactivity. The first request may take 50 seconds to wake it up.)*
 </details>
@@ -167,7 +160,7 @@ Use `BASE_URL` to point at Render, XAMPP, or Docker, and `SLOW=0.7` to watch the
 
 ```powershell
 # Test against your live Render deployment
-$env:BASE_URL="YOUR_RENDER_URL_HERE"
+$env:BASE_URL="https://credential-forensics-lab.onrender.com"
 $env:SLOW="0.7"
 python tests\test_forensics.py
 ```
@@ -239,4 +232,3 @@ python tests\test_forensics.py
 <p align="center">
   <sub>Built for the ITC402 Major Assignment &nbsp;|&nbsp; PHP &nbsp;|&nbsp; Selenium &nbsp;|&nbsp; Docker &nbsp;|&nbsp; Git &nbsp;|&nbsp; Render</sub>
 </p>
-```
