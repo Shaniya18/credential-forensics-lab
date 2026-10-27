@@ -29,6 +29,7 @@
 
 ```text
 > training lab  |  no database (PHP sessions only)  |  never enter a real password
+
 <img src="docs/rain.svg" alt="" width="100%">
 Mission
 Most people only see the login box. This lab opens up everything behind it: create an account, break the rules on purpose, get locked out, then inspect what the system actually stored about you.
@@ -56,114 +57,12 @@ Dashboard	Account details, strength score, threat level, evidence log, Hash Insp
 CI/CD Deployment	Fully containerized and auto-deployed via Render connected to GitHub.
 <details> <summary><b>How a login is decided</b> (flow diagram)</summary>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</details>
-Quick start
-bash
-git clone https://github.com/Shaniya18/credential-forensics-lab.git
-cd credential-forensics-lab
-<details> <summary><b>Option A:</b> Live Cloud Deployment (Render)</summary>
-The application is live and deployed via Docker to Render.
-
-👉 Click here to open the live app 👈
-
-(Note: Because this is hosted on Render's free tier, the container spins down after 15 minutes of inactivity. The first request may take 50 seconds to wake it up.)
-
-</details><details> <summary><b>Option B:</b> PHP built-in server (needs PHP 8.1+)</summary>
-bash
-php -S localhost:8000
-Open http://localhost:8000.
-
-</details><details> <summary><b>Option C:</b> Docker (Local)</summary>
-bash
-docker build -t credential-forensics-lab .
-docker run -d --name forensics-app -p 8080:80 credential-forensics-lab
-Open http://localhost:8080. Stop it with docker stop forensics-app && docker rm forensics-app.
-
-</details><details> <summary><b>Try it in 60 seconds</b></summary>
-Click Sign Up and use the username analyst_nia with the password Vault#Raven-9271!
-
-Watch the meter reach Excellent and tick every box.
-
-Create the account, log in, and open the Hash Inspector.
-
-Log out, then fail three logins on purpose and watch the lockout countdown.
-
-</details><img src="docs/rain.svg" alt="" width="100%">
-Tests
-17 Selenium tests (Python unittest + WebDriver) drive a real Chrome browser through every page, covering success and failure paths.
-
-bash
-pip install -r requirements.txt
-python tests/test_forensics.py
-Use BASE_URL to point at Render, XAMPP, or Docker, and SLOW=0.7 to watch the browser work. Results are saved to tests/test_results.txt. Needs Python 3.9+ and Google Chrome.
-
-powershell
-# Test against your live Render deployment
-$env:BASE_URL="YOUR_RENDER_URL_HERE"
-$env:SLOW="0.7"
-python tests\test_forensics.py
-<details> <summary><b>See all 17 test cases</b></summary>
-#	Test	Expected result
-1	Log in page loads with its form fields	Success
-2	Navigation between pages, index redirect	Success
-3	Dashboard refuses visitors who are not logged in	Blocked
-4	Valid sign-up accepted	Success
-5	Empty sign-up form lists every missing item	Rejected
-6	Common password rejected, including leet speak	Rejected
-7	Password containing the username rejected	Rejected
-8	Confirmation mismatch rejected	Rejected
-9	Duplicate username rejected	Rejected
-10	Live strength meter and checklist update while typing	Success
-11	Successful login shows the dashboard	Success
-12	Wrong password and unknown user give the same message	Denied
-13	Lockout after 3 failures, countdown ticks, correct password refused	Locked
-14	Hash Inspector shows a 60-character bcrypt hash, not the password	Success
-15	Hash Lab: different bcrypt salts, identical SHA-256	Success
-16	Logout protects the dashboard again	Success
-17	Delete-all-accounts with confirm dialog (cancel, then accept)	Success
-</details>
-Project files
-<details> <summary><b>Show the file list</b></summary>
-File or folder	Purpose
-index.php	Redirects to login or dashboard
-login.php	Login, lockout, delete-all-accounts
-register.php	Sign-up form and server-side validation
-dashboard.php	Account details, evidence log, Hash Inspector, Hash Lab
-includes/bootstrap.php	Session, constants, password rules, scoring, helpers
-includes/header.php, footer.php	Page top, navigation and bottom
-includes/common_passwords.php	The breach blocklist
-assets/style.css	Dark terminal theme
-assets/script.js	Strength meter, countdown, falling-code background
-tests/test_forensics.py	Selenium suite (17 tests)
-tests/test_results.txt	Latest test run
-docs/	Banner and screenshots used by this README
-Dockerfile	php:8.3-apache container
-git_workflow.sh, git_workflow.ps1	Create the commit, branch and merge history
-</details>
-Known limits
-<details> <summary><b>Why this is a demo, not production</b></summary>
-No database. Accounts live in the PHP session and vanish when it ends. A real system stores hashes in a database.
-
-Lockout is per session. A real system tracks failures per account and per IP, server-wide.
-
-No CSRF tokens. A real login form needs them.
-
-No HTTPS. Local development only. Production must use TLS. (Render handles HTTPS automatically on the live deployment).
-
-Sleeps on Render. The free tier sleeps after 15 mins of inactivity.
-
-</details><img src="docs/rain.svg" alt="" width="100%"><p align="center"> <sub>Built for the ITC402 Major Assignment &nbsp;|&nbsp; PHP &nbsp;|&nbsp; Selenium &nbsp;|&nbsp; Docker &nbsp;|&nbsp; Git &nbsp;|&nbsp; Render</sub> </p> ```
+flowchart TD
+    A[Submit username + password] --> B{Locked out?}
+    B -- yes --> C[Refuse, log LOCKED, show countdown]
+    B -- no --> D[password_verify against the stored hash, or a dummy hash if the user is unknown]
+    D -- match --> E[New session id, log SUCCESS, open dashboard]
+    D -- no match --> F[Add a failure, log FAILED]
+    F --> G{3 failures?}
+    G -- yes --> H[Lock for 30 seconds]
+    G -- no --> I[Same generic error message]
