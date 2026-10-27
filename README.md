@@ -1,102 +1,43 @@
-# Credential Forensics Lab
+# 🕵️‍♂️ CREDENTIAL FORENSICS LAB
 
-A small PHP web application that teaches how passwords are checked, stored and protected.
-It has a "case file" interface, a live password-strength meter, brute-force lockout and a hash inspector.
-Built for the **ITC402 Major Assignment**, with automated Selenium tests (Python) and Docker support.
+> **A cyber-security training simulator demonstrating password hashing, brute-force protection, and the boundary between client-side and server-side validation.**
 
-> Training lab only: never enter a real password.
+[![PHP Version](https://img.shields.io/badge/PHP-8.3-777BB4?style=flat-square&logo=php&logoColor=white)](https://php.net)
+[![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?style=flat-square&logo=docker&logoColor=white)](https://docker.com)
+[![Selenium](https://img.shields.io/badge/Selenium-Tested-43B02A?style=flat-square&logo=selenium&logoColor=white)](https://selenium.dev)
+[![Assignment](https://img.shields.io/badge/ITC402-Major_Assignment-red?style=flat-square)](#)
 
-## Features
+---
 
-- 3 interconnected PHP pages: **Access Terminal** (`login.php`), **Enroll Subject** (`register.php`), **Dashboard** (`dashboard.php`)
-- **Live strength meter** (JavaScript) with a rule checklist; the same rules are enforced again by PHP on the server
-- **Breach blocklist** of common passwords, including simple "leet speak" variants (`P@ssw0rd!` is caught)
-- Password may not contain the username; confirmation must match; length 10-64
-- **Passwords are hashed** with `password_hash()` (bcrypt, random salt) and checked with `password_verify()`; recovery answers are hashed too
-- **Lockout** after 3 failed logins for 30 seconds, with a live countdown; the right password is refused while locked
-- Identical error message for "wrong password" and "unknown user" (no user enumeration); a dummy hash keeps response time similar
-- `session_regenerate_id()` after login and logout (prevents session fixation), HttpOnly + SameSite cookie, basic security headers
-- **Dashboard:** account status, threat level, strength score, evidence log of every login event, **Hash Inspector** and **Hash Lab**
-- Data is stored in PHP sessions (no database)
+### 🛑 TRAINING LAB ONLY
+**Never enter a real password.** This application runs entirely in PHP `$_SESSION` memory. There is no database, no tracking, and no data persistence. Close the browser, and the "case file" is gone forever.
 
-## Project structure
+---
 
-```
-index.php            Redirects to login or dashboard
-login.php            Access terminal: login, lockout logic, purge action
-register.php         Enrollment form + server-side validation
-dashboard.php        Case file, evidence log, hash inspector, hash lab, logout
-includes/            bootstrap.php (session, rules, helpers), header, footer, blocklist
-assets/              style.css, script.js (meter, countdown, matrix background)
-tests/               Selenium test script (Python)
-Dockerfile           Container definition (php:8.3-apache)
-git_workflow.sh      Creates the commit / branch / merge history (Git Bash, Mac, Linux)
-git_workflow.ps1     Same thing for Windows PowerShell
-```
+## ⚡ The Feature Set
 
-## Run locally
+### 🔐 Core Authentication
+*   **3 Interconnected Pages:** Access Terminal (`login.php`), Enroll Subject (`register.php`), and the Case File Dashboard (`dashboard.php`).
+*   **Server-Side Authority:** Browsers lie. Every rule you see in the UI is re-validated in PHP before an account is created or accessed.
+*   **No User Enumeration:** "Wrong password" and "Unknown user" give the exact same error message and response time (thanks to a dummy hash).
+*   **Session Hardening:** `session_regenerate_id()` prevents fixation attacks. Cookies are `HttpOnly` and `SameSite=Lax`.
 
-Requirements: PHP 8.1 or newer.
+### 🧠 The Forensics Dashboard
+*   **Live Threat Level:** Goes from `LOW` → `MEDIUM` → `HIGH` based on failed login attempts and lockouts.
+*   **Evidence Log:** A timestamped audit trail of every `ENROLLED`, `SUCCESS`, `FAILED`, and `LOCKED` event.
+*   **Hash Inspector:** See exactly what the database would store—a 60-character `bcrypt` string. It breaks down the algorithm, cost factor, salt, and digest.
+*   **Hash Lab:** Interactive playground. Hash `hello` twice. See the bcrypt salts differ. See SHA-256 stay identical.
 
+### 🛡️ Brute-Force Defense
+*   **Breach Blocklist:** Catches common passwords, including "leet speak" bypasses (e.g., `P@ssw0rd!2024` is un-leeted to `password` and blocked).
+*   **Zero-Trust Username:** Passwords cannot contain the Subject ID (e.g., user `nia_ops` cannot use `Nia_Ops#2026!`).
+*   **Hard Lockout:** 3 failed attempts = 30-second lockout. A live JavaScript countdown ticks down, but the server remains the ultimate authority.
+
+---
+
+## 🚀 Deployment & Setup
+
+### Option A: Run Locally (PHP)
+Requires PHP 8.1+.
 ```bash
 php -S localhost:8000
-```
-
-Open <http://localhost:8000>. With XAMPP, copy the folder into `htdocs` and open `http://localhost/credential-forensics-lab/`.
-
-## Run with Docker
-
-```bash
-docker build -t credential-forensics-lab .
-docker run -d --name forensics-app -p 8080:80 credential-forensics-lab
-```
-
-Open <http://localhost:8080>. Stop and remove it with `docker stop forensics-app && docker rm forensics-app`.
-
-## Run the Selenium tests
-
-Requirements: Python 3.9+ and Google Chrome (Selenium 4 downloads a matching driver automatically).
-
-```bash
-pip install -r requirements.txt
-python tests/test_forensics.py
-```
-
-Point the tests at another address with `BASE_URL` (no trailing slash):
-
-```powershell
-$env:BASE_URL="http://localhost:8080"                         # Docker container
-$env:BASE_URL="http://localhost/credential-forensics-lab"     # XAMPP
-$env:SLOW="0.7"                                               # slow down so you can watch (demo)
-python tests\test_forensics.py
-```
-
-Results are printed and saved to `tests/test_results.txt`.
-
-### Test cases
-
-| # | Test | Type |
-|---|------|------|
-| 1 | Login page loads with its form fields | Success |
-| 2 | Navigation between pages, index redirect | Success |
-| 3 | Dashboard refuses visitors who are not logged in | Failure |
-| 4 | Valid enrollment accepted | Success |
-| 5 | Empty enrollment form lists every missing item | Failure |
-| 6 | Common password rejected, including leet-speak | Failure |
-| 7 | Password containing the username rejected | Failure |
-| 8 | Confirmation mismatch rejected | Failure |
-| 9 | Duplicate Subject ID rejected | Failure |
-| 10 | Live strength meter and rule checklist update while typing | Success |
-| 11 | Successful login shows the case file | Success |
-| 12 | Wrong password and unknown user give the same message | Failure |
-| 13 | Lockout after 3 failures, countdown ticks, correct password refused | Failure |
-| 14 | Hash inspector shows a 60-character bcrypt hash, not the password | Success |
-| 15 | Hash lab: different bcrypt salts, identical SHA-256 | Success |
-| 16 | Logout protects the dashboard again | Success |
-| 17 | Purge with confirm dialog (cancel, then accept) | Success |
-
-## Known limits (it is a teaching demo)
-
-- Accounts live in the PHP session, so they disappear when the session ends; a real system would use a database.
-- Lockout is tracked per session; a real system would track it server-wide and per IP.
-- There is no CSRF token and no HTTPS here; both are required in production.
