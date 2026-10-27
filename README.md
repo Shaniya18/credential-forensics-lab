@@ -1,3 +1,6 @@
+Here is the complete README code in a single copy-paste block. Just highlight everything inside the box, copy it, and paste it directly into your `README.md` file.
+
+```markdown
 # 🕵️‍♂️ CREDENTIAL FORENSICS LAB
 
 > **A cyber-security training simulator demonstrating password hashing, brute-force protection, and the boundary between client-side and server-side validation.**
@@ -41,3 +44,85 @@
 Requires PHP 8.1+.
 ```bash
 php -S localhost:8000
+```
+Navigate to `http://localhost:8000`.
+
+### Option B: Run in Docker (Containerized)
+Requires Docker.
+```bash
+docker build -t credential-forensics-lab .
+docker run -d --name forensics-app -p 8080:80 credential-forensics-lab
+```
+Navigate to `http://localhost:8080`.
+
+### Option C: Run the Automated Tests
+Requires Python 3.9+ and Google Chrome.
+```bash
+pip install -r requirements.txt
+python tests/test_forensics.py
+```
+
+---
+
+## 🧪 Automated Test Coverage (17 Cases)
+
+The Selenium suite runs 17 functional tests covering success and failure paths across all pages.
+
+| # | Test Scenario | Path |
+|---|---------------|------|
+| 1 | Login page loads with form fields | ✅ Success |
+| 2 | Navigation and index redirect work | ✅ Success |
+| 3 | Unauthenticated users blocked from Dashboard | ❌ Failure |
+| 4 | Valid enrollment accepted | ✅ Success |
+| 5 | Empty form lists every missing item | ❌ Failure |
+| 6 | Blocklist catches common/leet passwords | ❌ Failure |
+| 7 | Password containing username rejected | ❌ Failure |
+| 8 | Confirmation mismatch rejected | ❌ Failure |
+| 9 | Duplicate Subject ID rejected | ❌ Failure |
+| 10 | Live meter and checklist update | ✅ Success |
+| 11 | Successful login shows Case File | ✅ Success |
+| 12 | No user enumeration on failure | ❌ Failure |
+| 13 | Lockout triggers, countdown ticks | ❌ Failure |
+| 14 | Inspector shows 60-char bcrypt hash | ✅ Success |
+| 15 | Lab shows random salts vs SHA-256 | ✅ Success |
+| 16 | Logout protects the Dashboard again | ✅ Success |
+| 17 | Purge confirmation dialog works | ✅ Success |
+
+---
+
+## 📂 Architecture
+
+```text
+credential-forensics-lab/
+├── index.php            # Router: redirects to login or dashboard
+├── login.php            # Access Terminal: lockout, purge, verification
+├── register.php         # Enrollment: server-side rules, hashing
+├── dashboard.php        # Case File: log, hash inspector, lab
+├── includes/
+│   ├── bootstrap.php    # Session start, helpers, security constants
+│   ├── header.php       # HTML top, nav, case ID generator
+│   ├── footer.php       # HTML bottom, script loader
+│   └── common_passwords.php # The breach blocklist array
+├── assets/
+│   ├── style.css        # Cyber-terminal aesthetic
+│   └── script.js        # Meter, countdown, matrix rain, intervals
+├── tests/
+│   ├── test_forensics.py    # Selenium WebDriver suite
+│   └── test_results.txt     # Latest execution log
+├── Dockerfile           # php:8.3-apache container definition
+└── git_workflow.ps1     # Automates commit/branch/merge history
+```
+
+---
+
+## ⚠️ Known Limitations (Production vs. Demo)
+
+Because this is a session-based training lab, it explicitly demonstrates *why* production systems use databases:
+1.  **Data Loss:** Accounts vanish when the PHP session ends.
+2.  **Lockout Scope:** Lockouts are per-session. A real app would track by username + IP in a database.
+3.  **CSRF:** No CSRF tokens are implemented here; a real login form needs them.
+4.  **HTTPS:** No TLS/SSL certificate is configured for local development.
+
+---
+*Built for the ITC402 Major Assignment. Secured by PHP, deployed by Docker, verified by Selenium.*
+```
