@@ -1,4 +1,4 @@
-Selenium test run: 2026-11-03 06:05:16
+Selenium test run: 2026-11-04 09:42:17
 Target: https://credential-forensics-lab.onrender.com
 
 test_01_login_page_loads (__main__.ForensicsLabTests.test_01_login_page_loads)
@@ -37,7 +37,7 @@ test_17_purge_with_confirm_dialog (__main__.ForensicsLabTests.test_17_purge_with
 Purge asks for confirmation (JS alert): cancel keeps accounts, accept removes them. ... ok
 
 ----------------------------------------------------------------------
-Ran 17 tests in 94.916s
+Ran 17 tests in 170.044s
 
 OK
 
