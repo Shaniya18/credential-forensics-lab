@@ -1,5 +1,5 @@
-Selenium test run: 2026-10-27 11:03:29
-Target: http://localhost/credential-forensics-lab
+Selenium test run: 2026-11-03 06:05:16
+Target: https://credential-forensics-lab.onrender.com
 
 test_01_login_page_loads (__main__.ForensicsLabTests.test_01_login_page_loads)
 The access terminal opens with its title, banner and login form fields. ... ok
@@ -37,7 +37,7 @@ test_17_purge_with_confirm_dialog (__main__.ForensicsLabTests.test_17_purge_with
 Purge asks for confirmation (JS alert): cancel keeps accounts, accept removes them. ... ok
 
 ----------------------------------------------------------------------
-Ran 17 tests in 66.571s
+Ran 17 tests in 94.916s
 
 OK
 

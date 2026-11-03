@@ -3,17 +3,19 @@ Automated functional tests for the Credential Forensics Lab (PHP app).
 
 Tools: Python unittest + Selenium WebDriver (Chrome).
 
-Run (the app must already be running, e.g. `php -S localhost:8000`, XAMPP, or the Docker container):
+Run (the app must already be running, e.g. XAMPP Apache, `php -S localhost:8080`, or the Docker container):
 
     pip install selenium
     python tests/test_forensics.py
 
-Windows PowerShell example (XAMPP):
-    $env:BASE_URL="http://localhost/credential-forensics-lab"
-    python tests\\test_forensics.py
+The default URL is the XAMPP address below, so it works from VS Code, PowerShell or cmd
+without setting anything. To test a different address, set BASE_URL first:
+
+    PowerShell:  $env:BASE_URL="http://localhost:8080"
+    cmd:         set BASE_URL=http://localhost:8080
 
 Optional environment variables:
-    BASE_URL        default http://localhost:8000 (no trailing slash)
+    BASE_URL        default http://localhost/credential-forensics-lab (no trailing slash)
     HEADLESS        1 = run without a browser window
     SLOW            seconds to pause after each action (e.g. 0.7) - handy for the demo
     CHROME_BINARY / CHROMEDRIVER   paths, only if Selenium cannot find them itself
@@ -33,7 +35,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
-BASE_URL = os.environ.get("BASE_URL", "http://localhost:8000").rstrip("/")
+BASE_URL = os.environ.get("BASE_URL", "http://localhost/credential-forensics-lab").rstrip("/")
 SLOW = float(os.environ.get("SLOW", "0"))
 
 STRONG_PW = "Vault#Raven-9271!"      # 17 chars, all character classes -> score 91 (Excellent)
